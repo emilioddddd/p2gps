@@ -1,7 +1,5 @@
-FROM mongo
+FROM mongo:3.4
 
-MAINTAINER juliens@microsoft.com
-
-COPY drop/* /tmp/
+COPY drop/* usr/local/data/db/
 
 CMD ["mongod", "--smallfiles", "--rest"]
