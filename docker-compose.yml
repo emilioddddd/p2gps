@@ -24,6 +24,7 @@ services:
        #   memory: 200M
     ports:
       - "28017:28017"
+      - "27017:27017"
     volumes:
       - "db-data:/data/db" # para guardar en local los cambios en el contenedor
 
@@ -43,7 +44,3 @@ services:
 
 volumes:
   db-data:
-    driver: azure_file
-    driver_opts:
-      share_name: db-data
-      storage_account_name: almacengps10546
