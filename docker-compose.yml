@@ -3,6 +3,17 @@ services:
   # ahora se indican los servicios por el orden en que se quiere que se inicien.
   # Por ejemplo, mongo debe estar antes de order.
   # mongo: mismo nombre usado en el run.sh de Order y application.properties. # Se resuelve en una dirección IP.
+  web:
+    image: ivanvc03/p2gps:web
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.25"
+      #    memory: 300M
+    ports:
+      - "80:8080"
+
   mongo:
     image: ivanvc03/p2gps:db
     deploy:
@@ -10,10 +21,9 @@ services:
       resources:
         limits:
           cpus: "0.15"
-          memory: 200M
+       #   memory: 200M
     ports:
-      - "28017:28017" # mapeo el puerto del contenedor (derecha) con el puerto del host del servicio
-      - "27017:27017"
+      - "28017:28017"
     volumes:
       - "db-data:/data/db" # para guardar en local los cambios en el contenedor
 
@@ -26,20 +36,14 @@ services:
       resources:
         limits:
           cpus: "0.3"
-          memory: 500M
+        #  memory: 500M
     ports:
       - "8080:8080"
-
-  web:
-    image: ivanvc03/p2gps:web
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.25"
-          memory: 300M
-    ports:
-      - "80:8080"
+    
 
 volumes:
   db-data:
+    driver: azure_file
+    driver_opts:
+      share_name: db-data
+      storage_account_name: almacengps10546
