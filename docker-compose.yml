@@ -11,8 +11,6 @@ services:
         limits:
           cpus: "0.15"
           memory: 200M
-    restart_policy:
-      condition: on-failure # reiniciar el contenedor si falla
     ports:
       - "28017:28017" # mapeo el puerto del contenedor (derecha) con el puerto del host del servicio
       - "27017:27017"
@@ -29,8 +27,6 @@ services:
         limits:
           cpus: "0.3"
           memory: 500M
-    restart_policy:
-      condition: on-failure
     ports:
       - "8080:8080"
 
@@ -42,8 +38,6 @@ services:
         limits:
           cpus: "0.25"
           memory: 300M
-    restart_policy:
-      condition: on-failure
     ports:
       - "80:8080"
 
