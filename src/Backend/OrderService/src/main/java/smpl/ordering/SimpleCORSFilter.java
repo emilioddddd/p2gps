@@ -1,7 +1,6 @@
 package smpl.ordering;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -14,25 +13,36 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SimpleCORSFilter implements Filter
-{
+public class SimpleCORSFilter implements Filter {
 
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException
-    {
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
-        response.setHeader("Access-Control-Max-Age", "1");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Pragma, Cache-Control, If-Modified-Since");
 
+        // Configuración de los encabezados CORS
+        response.setHeader("Access-Control-Allow-Origin", "*"); // Especifica el origen permitido
+        response.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600"); // Tiempo en segundos que la respuesta puede ser cacheada
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Pragma, Cache-Control, If-Modified-Since");
+
+        // Manejar solicitud OPTIONS (Preflight)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return; // Devolvemos directamente la respuesta sin continuar con la cadena
+        }
+
+        // Continuar con el siguiente filtro
         chain.doFilter(req, res);
     }
 
-    public void init(FilterConfig filterConfig)
-    {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // Método de inicialización - puede quedar vacío
     }
 
-    public void destroy()
-    {
+    @Override
+    public void destroy() {
+        // Método de destrucción - puede quedar vacío
     }
 }
