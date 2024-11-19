@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost")
 @Controller
 @RequestMapping("/orders")
 public class OrderController
